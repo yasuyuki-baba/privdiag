@@ -1,0 +1,25 @@
+# Build directories
+/build/
+/out/
+/cmake-build-*/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+
+# Windows / MinGW outputs
+*.exe
+*.dll
+*.lib
+*.a
+*.o
+*.obj
+*.pdb
+*.ilk
+*.exp
+
+# Editor/OS
+.DS_Store
+.vscode/
