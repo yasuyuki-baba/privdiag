@@ -93,5 +93,24 @@ static std::wstring BuildSecuritySummary() {
     }
 
     CloseHandle(hToken);
+    // Append module path (full path to this DLL or EXE)
+    out += L"Module: " + GetThisModulePath() + L"\n";
     return out;
 }
+
+static std::wstring GetThisModulePath() {
+    HMODULE hMod = NULL;
+    // Use the function address to get the module handle for this DLL/EXE
+    if (GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                           (LPCWSTR)(void*)&GetThisModulePath, &hMod)) {
+        WCHAR buf[MAX_PATH];
+        DWORD n = GetModuleFileNameW(hMod, buf, MAX_PATH);
+        if (n) return std::wstring(buf, n);
+    }
+    // Fallback to the main module (EXE)
+    WCHAR buf2[MAX_PATH];
+    DWORD n2 = GetModuleFileNameW(NULL, buf2, MAX_PATH);
+    if (n2) return std::wstring(buf2, n2);
+    return L"(unknown module)";
+}
+
