@@ -41,6 +41,10 @@ static std::wstring PrivilegeLuidToName(LUID luid) {
     return L"UnknownPrivilege";
 }
 
+// Forward declaration so BuildSecuritySummary can call it on all compilers
+static std::wstring GetThisModulePath();
+
+
 static std::wstring BuildSecuritySummary() {
     HANDLE hToken = NULL;
     std::wstring out;
